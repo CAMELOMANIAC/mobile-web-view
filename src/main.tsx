@@ -1,11 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createRouter, RouterProvider } from "@tanstack/react-router";
+import { createHashHistory, createRouter, RouterProvider } from "@tanstack/react-router";
 import "./main.css";
 
 import { routeTree } from "./routeTree.gen";
 
-const router = createRouter({ routeTree, defaultNotFoundComponent: () => <div>Not Found</div> });
+const router = createRouter({
+  routeTree,
+  history: createHashHistory(),
+  defaultNotFoundComponent: () => <div>Not Found</div>,
+});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
