@@ -16,21 +16,26 @@ const BottomNav = () => {
 
   useEffect(() => {
     const body = document.querySelector("body");
-    window.addEventListener("resize", updatePosition);
+    if (!body) return;
+    const rect = body.getBoundingClientRect();
+    const resizeObserver = new ResizeObserver(() => {
+      if (!containerRef.current) return;
+      containerRef.current.style.width = `${rect.width}px`;
+    });
+
+    if (!containerRef.current) return;
+    resizeObserver.observe(containerRef.current);
+    updatePosition();
+    window?.addEventListener("resize", updatePosition);
     function updatePosition() {
-      if (!body) return;
-      const rect = body.getBoundingClientRect();
       if (!containerRef.current) return;
       containerRef.current.style.left = `${rect.left}px`;
-
-      const resizeObserver = new ResizeObserver(() => {
-        if (!containerRef.current) return;
-        containerRef.current.style.width = `${rect.width}px`;
-      });
-
-      if (!containerRef.current) return;
-      resizeObserver.observe(containerRef.current);
     }
+
+    return () => {
+      window?.removeEventListener("resize", updatePosition);
+      resizeObserver.disconnect();
+    };
   }, []);
 
   const { isShowPrevButton, isShowMainButton, mainButtonTitle, mainButtonClickHandler } = useGNBGetState(

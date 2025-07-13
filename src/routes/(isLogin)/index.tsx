@@ -31,7 +31,7 @@ export function Index() {
   }, []); // eslint-disable-line
 
   return (
-    <Page style={{ height: "100rem" }}>
+    <Page>
       <LogoMain src={logoImage}></LogoMain>
     </Page>
   );
@@ -41,7 +41,6 @@ const LogoMain = styled.img`
   position: relative;
 
   width: 100%;
-  margin-top: 100rem;
 
   object-fit: contain;
 `;

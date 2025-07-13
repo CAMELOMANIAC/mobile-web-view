@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Page } from "../../../components/Commons";
 import PageTransitionWrapper from "../../../components/PageTransitionWrapper";
 import TabBar from "../../../components/TabBar";
+import { useGNBSetState } from "../../../store/useGNBStore";
 
 export const Route = createFileRoute("/(isLogin)/employee/")({
   component: () => (
@@ -17,6 +18,15 @@ export const Route = createFileRoute("/(isLogin)/employee/")({
 
 function RouteComponent() {
   const [tab, setTap] = useState(0);
+  const { setIsShowPrevButton } = useGNBSetState((state) => state);
+
+  useEffect(() => {
+    setIsShowPrevButton(true);
+
+    return () => {
+      setIsShowPrevButton(false);
+    };
+  }, []); // eslint-disable-line
 
   return (
     <Page>
