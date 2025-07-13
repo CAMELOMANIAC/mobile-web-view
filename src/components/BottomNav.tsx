@@ -1,17 +1,20 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { nav } from "motion/react-m";
-import { useState } from "react";
 import { FaCalendar } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoPerson } from "react-icons/io5";
 import styled from "styled-components";
 
+import { useGNBGetState } from "../store/useGNBStore";
+
 const BottomNav = () => {
   const { location } = useRouterState();
-  const [hasLeftNavContents, setHasLeftNavContents] = useState(false);
-  const [hasRightNavContents, setHasRightNavContents] = useState(false);
+
+  const { isShowPrevButton, isShowMainButton, mainButtonTitle, mainButtonClickHandler } = useGNBGetState(
+    (state) => state
+  );
 
   // const onClickHandler = () => {
   //   if (window.ReactNativeWebView) {
@@ -22,7 +25,7 @@ const BottomNav = () => {
   return (
     <NavContainer>
       <AnimatePresence>
-        {hasLeftNavContents && (
+        {isShowPrevButton && (
           <NavContents
             initial={{ opacity: 0, left: "50%" }}
             animate={{ opacity: 1, left: "1rem" }}
@@ -38,16 +41,10 @@ const BottomNav = () => {
             </button>
           </NavContents>
         )}
-        <NavContents $isCollapsed={hasLeftNavContents || hasRightNavContents} style={{ zIndex: 1 }} key="center" layout>
+        <NavContents $isCollapsed={isShowPrevButton || isShowMainButton} style={{ zIndex: 1 }} key="center" layout>
           {/* <Link to="/about">about</Link>
         <button onClick={onClickHandler}>post message</button> */}
-          <Link
-            to="/"
-            activeProps={{ style: { color: "black" } }}
-            onClick={() => {
-              setHasLeftNavContents((prev) => !prev);
-            }}
-          >
+          <Link to="/" activeProps={{ style: { color: "black" } }}>
             {location.pathname === "/" && (
               <TabItemHighlight
                 layoutId="nav-indicator"
@@ -79,16 +76,12 @@ const BottomNav = () => {
                 transition={{ type: "spring", stiffness: 500, damping: 30 }}
               />
             )}
-            <IconWrapper
-              onClick={() => {
-                setHasRightNavContents((prev) => !prev);
-              }}
-            >
+            <IconWrapper>
               <IoPerson />
             </IconWrapper>
           </Link>
         </NavContents>
-        {hasRightNavContents && (
+        {isShowMainButton && (
           <NavContents
             initial={{ opacity: 0, x: "-50%" }}
             animate={{ opacity: 1, x: 0 }}
@@ -98,7 +91,9 @@ const BottomNav = () => {
             key="right"
             layout
           >
-            <button style={{ padding: "1.5rem 0" }}>길게 눌러 진행</button>
+            <button style={{ padding: "1.5rem 0" }} onClick={mainButtonClickHandler}>
+              {mainButtonTitle}
+            </button>
           </NavContents>
         )}
       </AnimatePresence>
@@ -144,7 +139,7 @@ const NavContents = styled(motion.div)<NavContentsProps>`
     inset 0 -1px 0 rgba(255, 255, 255, 0.1),
     inset 0 0 20px 10px rgba(255, 255, 255, 1);
 
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.3);
 
   -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
