@@ -1,3 +1,5 @@
 {
-  "extends": ["stylelint-config-recommended", "stylelint-config-styled-components", "stylelint-styled-components-order"]
+  "extends": ["stylelint-config-recommended", "stylelint-styled-components-order"],
+  "plugins": ["stylelint-order"],
+  "customSyntax": "@stylelint/postcss-css-in-js"
 }
