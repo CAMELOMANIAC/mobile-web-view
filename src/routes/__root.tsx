@@ -1,9 +1,15 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import styled from "styled-components";
+
 import BottomNav from "../components/BottomNav";
 import Header from "../components/Header";
+import type { AuthGetState } from "../store/useAuthStore";
 
-export const Route = createRootRoute({
+type MyRouterContext = {
+  auth: AuthGetState;
+};
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <Header />
@@ -18,10 +24,12 @@ export const Route = createRootRoute({
 
 const Main = styled.main`
   display: flex;
-  height: 100%;
-  width: 100%;
   flex: 1;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  position: relative;
+
+  width: 100%;
+  height: 100%;
 `;

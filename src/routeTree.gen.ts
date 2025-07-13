@@ -11,79 +11,169 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as AboutIndexImport } from './routes/about/index'
+import { Route as isLoginRouteImport } from './routes/(isLogin)/route'
+import { Route as isLoginIndexImport } from './routes/(isLogin)/index'
+import { Route as isLoginLoginImport } from './routes/(isLogin)/login'
+import { Route as isLoginAboutImport } from './routes/(isLogin)/about'
+import { Route as isLoginScheduleIndexImport } from './routes/(isLogin)/schedule/index'
+import { Route as isLoginEmployeeIndexImport } from './routes/(isLogin)/employee/index'
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+const isLoginRouteRoute = isLoginRouteImport.update({
+  id: '/(isLogin)',
   getParentRoute: () => rootRoute,
 } as any)
 
-const AboutIndexRoute = AboutIndexImport.update({
-  id: '/about/',
-  path: '/about/',
-  getParentRoute: () => rootRoute,
+const isLoginIndexRoute = isLoginIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => isLoginRouteRoute,
+} as any)
+
+const isLoginLoginRoute = isLoginLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => isLoginRouteRoute,
+} as any)
+
+const isLoginAboutRoute = isLoginAboutImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => isLoginRouteRoute,
+} as any)
+
+const isLoginScheduleIndexRoute = isLoginScheduleIndexImport.update({
+  id: '/schedule/',
+  path: '/schedule/',
+  getParentRoute: () => isLoginRouteRoute,
+} as any)
+
+const isLoginEmployeeIndexRoute = isLoginEmployeeIndexImport.update({
+  id: '/employee/',
+  path: '/employee/',
+  getParentRoute: () => isLoginRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(isLogin)': {
+      id: '/(isLogin)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
+      preLoaderRoute: typeof isLoginRouteImport
       parentRoute: typeof rootRoute
     }
-    '/about/': {
-      id: '/about/'
+    '/(isLogin)/about': {
+      id: '/(isLogin)/about'
       path: '/about'
       fullPath: '/about'
-      preLoaderRoute: typeof AboutIndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof isLoginAboutImport
+      parentRoute: typeof isLoginRouteImport
+    }
+    '/(isLogin)/login': {
+      id: '/(isLogin)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof isLoginLoginImport
+      parentRoute: typeof isLoginRouteImport
+    }
+    '/(isLogin)/': {
+      id: '/(isLogin)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof isLoginIndexImport
+      parentRoute: typeof isLoginRouteImport
+    }
+    '/(isLogin)/employee/': {
+      id: '/(isLogin)/employee/'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof isLoginEmployeeIndexImport
+      parentRoute: typeof isLoginRouteImport
+    }
+    '/(isLogin)/schedule/': {
+      id: '/(isLogin)/schedule/'
+      path: '/schedule'
+      fullPath: '/schedule'
+      preLoaderRoute: typeof isLoginScheduleIndexImport
+      parentRoute: typeof isLoginRouteImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface isLoginRouteRouteChildren {
+  isLoginAboutRoute: typeof isLoginAboutRoute
+  isLoginLoginRoute: typeof isLoginLoginRoute
+  isLoginIndexRoute: typeof isLoginIndexRoute
+  isLoginEmployeeIndexRoute: typeof isLoginEmployeeIndexRoute
+  isLoginScheduleIndexRoute: typeof isLoginScheduleIndexRoute
+}
+
+const isLoginRouteRouteChildren: isLoginRouteRouteChildren = {
+  isLoginAboutRoute: isLoginAboutRoute,
+  isLoginLoginRoute: isLoginLoginRoute,
+  isLoginIndexRoute: isLoginIndexRoute,
+  isLoginEmployeeIndexRoute: isLoginEmployeeIndexRoute,
+  isLoginScheduleIndexRoute: isLoginScheduleIndexRoute,
+}
+
+const isLoginRouteRouteWithChildren = isLoginRouteRoute._addFileChildren(
+  isLoginRouteRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
+  '/': typeof isLoginIndexRoute
+  '/about': typeof isLoginAboutRoute
+  '/login': typeof isLoginLoginRoute
+  '/employee': typeof isLoginEmployeeIndexRoute
+  '/schedule': typeof isLoginScheduleIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/about': typeof AboutIndexRoute
+  '/about': typeof isLoginAboutRoute
+  '/login': typeof isLoginLoginRoute
+  '/': typeof isLoginIndexRoute
+  '/employee': typeof isLoginEmployeeIndexRoute
+  '/schedule': typeof isLoginScheduleIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
-  '/about/': typeof AboutIndexRoute
+  '/(isLogin)': typeof isLoginRouteRouteWithChildren
+  '/(isLogin)/about': typeof isLoginAboutRoute
+  '/(isLogin)/login': typeof isLoginLoginRoute
+  '/(isLogin)/': typeof isLoginIndexRoute
+  '/(isLogin)/employee/': typeof isLoginEmployeeIndexRoute
+  '/(isLogin)/schedule/': typeof isLoginScheduleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/login' | '/employee' | '/schedule'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about/'
+  to: '/about' | '/login' | '/' | '/employee' | '/schedule'
+  id:
+    | '__root__'
+    | '/(isLogin)'
+    | '/(isLogin)/about'
+    | '/(isLogin)/login'
+    | '/(isLogin)/'
+    | '/(isLogin)/employee/'
+    | '/(isLogin)/schedule/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  AboutIndexRoute: typeof AboutIndexRoute
+  isLoginRouteRoute: typeof isLoginRouteRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  AboutIndexRoute: AboutIndexRoute,
+  isLoginRouteRoute: isLoginRouteRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -96,15 +186,38 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/about/"
+        "/(isLogin)"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/(isLogin)": {
+      "filePath": "(isLogin)/route.tsx",
+      "children": [
+        "/(isLogin)/about",
+        "/(isLogin)/login",
+        "/(isLogin)/",
+        "/(isLogin)/employee/",
+        "/(isLogin)/schedule/"
+      ]
     },
-    "/about/": {
-      "filePath": "about/index.tsx"
+    "/(isLogin)/about": {
+      "filePath": "(isLogin)/about.tsx",
+      "parent": "/(isLogin)"
+    },
+    "/(isLogin)/login": {
+      "filePath": "(isLogin)/login.tsx",
+      "parent": "/(isLogin)"
+    },
+    "/(isLogin)/": {
+      "filePath": "(isLogin)/index.tsx",
+      "parent": "/(isLogin)"
+    },
+    "/(isLogin)/employee/": {
+      "filePath": "(isLogin)/employee/index.tsx",
+      "parent": "/(isLogin)"
+    },
+    "/(isLogin)/schedule/": {
+      "filePath": "(isLogin)/schedule/index.tsx",
+      "parent": "/(isLogin)"
     }
   }
 }
