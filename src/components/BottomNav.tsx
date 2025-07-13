@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { nav } from "motion/react-m";
+import { useEffect, useRef } from "react";
 import { FaCalendar } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
@@ -11,6 +12,26 @@ import { useGNBGetState } from "../store/useGNBStore";
 
 const BottomNav = () => {
   const { location } = useRouterState();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    window.addEventListener("resize", updatePosition);
+    function updatePosition() {
+      if (!body) return;
+      const rect = body.getBoundingClientRect();
+      if (!containerRef.current) return;
+      containerRef.current.style.left = `${rect.left}px`;
+
+      const resizeObserver = new ResizeObserver(() => {
+        if (!containerRef.current) return;
+        containerRef.current.style.width = `${rect.width}px`;
+      });
+
+      if (!containerRef.current) return;
+      resizeObserver.observe(containerRef.current);
+    }
+  }, []);
 
   const { isShowPrevButton, isShowMainButton, mainButtonTitle, mainButtonClickHandler } = useGNBGetState(
     (state) => state
@@ -23,7 +44,7 @@ const BottomNav = () => {
   // };
 
   return (
-    <NavContainer>
+    <NavContainer ref={containerRef}>
       <AnimatePresence>
         {isShowPrevButton && (
           <NavContents
