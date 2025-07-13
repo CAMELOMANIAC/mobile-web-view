@@ -6,6 +6,7 @@ type Props = {
   tapItems: React.ReactNode[];
   setTab: React.Dispatch<React.SetStateAction<number>>;
   tab: number;
+  $top?: number;
 };
 
 // type TabItemProps = {
@@ -13,9 +14,9 @@ type Props = {
 //   key: number;
 // };
 
-const TabBar = ({ tapItems, setTab, tab }: Readonly<Props>) => {
+const TabBar = ({ tapItems, setTab, tab, $top }: Readonly<Props>) => {
   return (
-    <TabContainer>
+    <TabContainer $top={$top ?? 0}>
       {tapItems.map((item, index) => (
         <TabItem key={index} onClick={() => setTab(index)}>
           {item}
@@ -35,12 +36,15 @@ const TabBar = ({ tapItems, setTab, tab }: Readonly<Props>) => {
 
 export default TabBar;
 
-const TabContainer = styled.div`
+type TabContainerProps = {
+  $top?: number;
+};
+const TabContainer = styled.div<TabContainerProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   position: sticky;
-  top: 0;
+  top: ${({ $top }) => $top + "px" || 0};
   left: 0;
 
   width: 100%;

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Page = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
   justify-content: flex-start;
   position: relative;

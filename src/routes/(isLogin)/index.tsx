@@ -15,7 +15,7 @@ export const Route = createFileRoute("/(isLogin)/")({
 
 export function Index() {
   return (
-    <Page>
+    <Page style={{ height: "100rem" }}>
       <LogoMain src={logoImage}></LogoMain>
     </Page>
   );

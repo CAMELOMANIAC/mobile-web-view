@@ -26,8 +26,8 @@ function RouteComponent() {
 
 const ScheduleContainer = styled.div`
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
 `;

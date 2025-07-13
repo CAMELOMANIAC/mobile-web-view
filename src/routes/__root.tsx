@@ -24,12 +24,15 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 const Main = styled.main`
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex-grow: 1;
   align-items: center;
   justify-content: center;
   position: relative;
 
   width: 100%;
   height: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
