@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { nav } from "motion/react-m";
-import { useEffect, useRef } from "react";
+// import { useEffect, useRef } from "react";
 import { FaCalendar } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { IoIosArrowBack } from "react-icons/io";
@@ -12,31 +12,31 @@ import { useGNBGetState } from "../store/useGNBStore";
 
 const BottomNav = () => {
   const { location } = useRouterState();
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const body = document.querySelector("body");
-    if (!body) return;
-    const rect = body.getBoundingClientRect();
-    const resizeObserver = new ResizeObserver(() => {
-      if (!containerRef.current) return;
-      containerRef.current.style.width = `${rect.width}px`;
-    });
+  // useEffect(() => {
+  //   const body = document.querySelector("body");
+  //   if (!body) return;
+  //   const rect = body.getBoundingClientRect();
+  //   const resizeObserver = new ResizeObserver(() => {
+  //     if (!containerRef.current) return;
+  //     containerRef.current.style.width = `${rect.width}px`;
+  //   });
 
-    if (!containerRef.current) return;
-    resizeObserver.observe(containerRef.current);
-    updatePosition();
-    window?.addEventListener("resize", updatePosition);
-    function updatePosition() {
-      if (!containerRef.current) return;
-      containerRef.current.style.left = `${rect.left}px`;
-    }
+  //   if (!containerRef.current) return;
+  //   resizeObserver.observe(containerRef.current);
+  //   updatePosition();
+  //   window?.addEventListener("resize", updatePosition);
+  //   function updatePosition() {
+  //     if (!containerRef.current) return;
+  //     containerRef.current.style.left = `${rect.left}px`;
+  //   }
 
-    return () => {
-      window?.removeEventListener("resize", updatePosition);
-      resizeObserver.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     window?.removeEventListener("resize", updatePosition);
+  //     resizeObserver.disconnect();
+  //   };
+  // }, []);
 
   const { isShowPrevButton, isShowMainButton, mainButtonTitle, mainButtonClickHandler } = useGNBGetState(
     (state) => state
@@ -49,7 +49,8 @@ const BottomNav = () => {
   // };
 
   return (
-    <NavContainer ref={containerRef}>
+    // <NavContainer ref={containerRef}>
+    <NavContainer>
       <AnimatePresence>
         {isShowPrevButton && (
           <NavContents
@@ -117,7 +118,11 @@ const BottomNav = () => {
             key="right"
             layout
           >
-            <button style={{ padding: "1.5rem 0" }} onClick={mainButtonClickHandler}>
+            <button
+              style={{ padding: "1.5rem 0" }}
+              onClick={mainButtonClickHandler}
+              onTouchStart={mainButtonClickHandler}
+            >
               {mainButtonTitle}
             </button>
           </NavContents>
