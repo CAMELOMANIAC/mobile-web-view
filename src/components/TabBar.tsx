@@ -46,11 +46,49 @@ const TabContainer = styled.div<TabContainerProps>`
   position: sticky;
   top: ${({ $top }) => $top + "px" || 0};
   left: 0;
+  z-index: 1;
 
   width: 100%;
   height: auto;
   padding: 0 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 20px 10px rgba(255, 255, 255, 1);
+
+  background: rgba(255, 255, 255, 0.15);
+
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease-in-out;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    height: 1px;
+
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+
+    content: "";
+  }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 1px;
+    height: 100%;
+
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+
+    content: "";
+  }
 `;
 
 const TabItem = styled.button`
