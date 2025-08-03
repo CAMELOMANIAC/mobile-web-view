@@ -17,6 +17,7 @@ import { Route as isLoginLoginImport } from './routes/(isLogin)/login'
 import { Route as isLoginAboutImport } from './routes/(isLogin)/about'
 import { Route as isLoginScheduleIndexImport } from './routes/(isLogin)/schedule/index'
 import { Route as isLoginEmployeeIndexImport } from './routes/(isLogin)/employee/index'
+import { Route as isLoginEmployeeEmployeeIdImport } from './routes/(isLogin)/employee/$employeeId'
 
 // Create/Update Routes
 
@@ -55,6 +56,12 @@ const isLoginEmployeeIndexRoute = isLoginEmployeeIndexImport.update({
   getParentRoute: () => isLoginRouteRoute,
 } as any)
 
+const isLoginEmployeeEmployeeIdRoute = isLoginEmployeeEmployeeIdImport.update({
+  id: '/employee/$employeeId',
+  path: '/employee/$employeeId',
+  getParentRoute: () => isLoginRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -87,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof isLoginIndexImport
       parentRoute: typeof isLoginRouteImport
     }
+    '/(isLogin)/employee/$employeeId': {
+      id: '/(isLogin)/employee/$employeeId'
+      path: '/employee/$employeeId'
+      fullPath: '/employee/$employeeId'
+      preLoaderRoute: typeof isLoginEmployeeEmployeeIdImport
+      parentRoute: typeof isLoginRouteImport
+    }
     '/(isLogin)/employee/': {
       id: '/(isLogin)/employee/'
       path: '/employee'
@@ -110,6 +124,7 @@ interface isLoginRouteRouteChildren {
   isLoginAboutRoute: typeof isLoginAboutRoute
   isLoginLoginRoute: typeof isLoginLoginRoute
   isLoginIndexRoute: typeof isLoginIndexRoute
+  isLoginEmployeeEmployeeIdRoute: typeof isLoginEmployeeEmployeeIdRoute
   isLoginEmployeeIndexRoute: typeof isLoginEmployeeIndexRoute
   isLoginScheduleIndexRoute: typeof isLoginScheduleIndexRoute
 }
@@ -118,6 +133,7 @@ const isLoginRouteRouteChildren: isLoginRouteRouteChildren = {
   isLoginAboutRoute: isLoginAboutRoute,
   isLoginLoginRoute: isLoginLoginRoute,
   isLoginIndexRoute: isLoginIndexRoute,
+  isLoginEmployeeEmployeeIdRoute: isLoginEmployeeEmployeeIdRoute,
   isLoginEmployeeIndexRoute: isLoginEmployeeIndexRoute,
   isLoginScheduleIndexRoute: isLoginScheduleIndexRoute,
 }
@@ -130,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/': typeof isLoginIndexRoute
   '/about': typeof isLoginAboutRoute
   '/login': typeof isLoginLoginRoute
+  '/employee/$employeeId': typeof isLoginEmployeeEmployeeIdRoute
   '/employee': typeof isLoginEmployeeIndexRoute
   '/schedule': typeof isLoginScheduleIndexRoute
 }
@@ -138,6 +155,7 @@ export interface FileRoutesByTo {
   '/about': typeof isLoginAboutRoute
   '/login': typeof isLoginLoginRoute
   '/': typeof isLoginIndexRoute
+  '/employee/$employeeId': typeof isLoginEmployeeEmployeeIdRoute
   '/employee': typeof isLoginEmployeeIndexRoute
   '/schedule': typeof isLoginScheduleIndexRoute
 }
@@ -148,21 +166,35 @@ export interface FileRoutesById {
   '/(isLogin)/about': typeof isLoginAboutRoute
   '/(isLogin)/login': typeof isLoginLoginRoute
   '/(isLogin)/': typeof isLoginIndexRoute
+  '/(isLogin)/employee/$employeeId': typeof isLoginEmployeeEmployeeIdRoute
   '/(isLogin)/employee/': typeof isLoginEmployeeIndexRoute
   '/(isLogin)/schedule/': typeof isLoginScheduleIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/login' | '/employee' | '/schedule'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/employee/$employeeId'
+    | '/employee'
+    | '/schedule'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/login' | '/' | '/employee' | '/schedule'
+  to:
+    | '/about'
+    | '/login'
+    | '/'
+    | '/employee/$employeeId'
+    | '/employee'
+    | '/schedule'
   id:
     | '__root__'
     | '/(isLogin)'
     | '/(isLogin)/about'
     | '/(isLogin)/login'
     | '/(isLogin)/'
+    | '/(isLogin)/employee/$employeeId'
     | '/(isLogin)/employee/'
     | '/(isLogin)/schedule/'
   fileRoutesById: FileRoutesById
@@ -195,6 +227,7 @@ export const routeTree = rootRoute
         "/(isLogin)/about",
         "/(isLogin)/login",
         "/(isLogin)/",
+        "/(isLogin)/employee/$employeeId",
         "/(isLogin)/employee/",
         "/(isLogin)/schedule/"
       ]
@@ -209,6 +242,10 @@ export const routeTree = rootRoute
     },
     "/(isLogin)/": {
       "filePath": "(isLogin)/index.tsx",
+      "parent": "/(isLogin)"
+    },
+    "/(isLogin)/employee/$employeeId": {
+      "filePath": "(isLogin)/employee/$employeeId.tsx",
       "parent": "/(isLogin)"
     },
     "/(isLogin)/employee/": {
