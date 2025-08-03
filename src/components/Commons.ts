@@ -16,7 +16,7 @@ export const GlassContanier = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
 
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -58,4 +58,37 @@ export const GlassContanier = styled.div`
 
     content: "";
   }
+`;
+
+export const GlassContanierWithPadding = styled(GlassContanier)<{ $padding?: string }>`
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: auto;
+  padding: ${({ $padding }) => ($padding ? $padding : "1rem")};
+`;
+
+export const CommonUl = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  padding: 0 1rem;
+
+  li:nth-child(even) {
+    background-color: #f0f0f0;
+  }
+`;
+
+export const CommonLi = styled.li`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 `;
